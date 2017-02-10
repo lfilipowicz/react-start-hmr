@@ -1,11 +1,10 @@
-const { resolve } = require('path');
+const {resolve} = require('path');
 const webpack = require('webpack');
 
-/* PostCss */
-const autoprefixer = require( 'autoprefixer');
-const postcssFixes = require('postcss-fixes');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const cssExtract = new ExtractTextPlugin({filename: 'css/[name].css', disable: false, allChunks: true });
 
 module.exports = {
   entry: [
@@ -25,18 +24,16 @@ module.exports = {
     // the entry point of our app
   ],
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle[hash:5].js',
     // the output bundle
 
     path: resolve(__dirname, 'dist'),
 
     publicPath: '/'
-      // necessary for HMR to know where to load the hot update chunks
+    // necessary for HMR to know where to load the hot update chunks
   },
-   node: {
-      'fs' : 'empty',
-   },
-    target: 'web',
+
+  target: 'web',
 
   context: resolve(__dirname, 'src'),
 
@@ -55,9 +52,6 @@ module.exports = {
 
   module: {
     rules: [
-        { test: /\.png$/, use: 'url-loader?limit=100000' },
-        { test: /\.jpg$/, use: 'file-loader' },
-
       {
         test: /\.js$/,
         use: [
@@ -67,39 +61,41 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=__[hash:base64:5]',
-          'postcss-loader',
-        ],
+        use: cssExtract.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader']
+        }),
+      },
+      {
+        test: /\.pcss$/,
+        use: cssExtract.extract({
+          fallback: 'style-loader',
+          use: ['css-loader?modules&importLoaders=1&localIdentName=__[hash:base64:5]', 'postcss-loader']
+        }),
+
       },
     ],
   },
 
   plugins: [
-      new StyleLintPlugin({
-          files: './src/**.*/*.css'
-      }),
-      new webpack.LoaderOptionsPlugin({
-          minimize: false,
-          debug: false,
-          options: {
-              postcss: [
-                  postcssFixes(),
-                  autoprefixer({browsers:['last 2 versions']})
-              ]
-          }
-      }),
-      new webpack.DefinePlugin({
-          'process.env.NODE_ENV': process.env.NODE_ENV
-      }),
+    cssExtract,
+    new webpack.LoaderOptionsPlugin({
+      minimize: false,
+      debug: false,
+      options: {
+        postcss: require('./utils/postcss.config')
+      }
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': process.env.NODE_ENV
+    }),
 
 
     new webpack.HotModuleReplacementPlugin(),
-      new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: 'template/index.html'
-      }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'template/index.html'
+    }),
     // enable HMR globally
 
     new webpack.NamedModulesPlugin(),

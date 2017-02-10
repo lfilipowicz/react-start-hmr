@@ -2,9 +2,6 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 
 /* PostCss */
-const postcss = require('postcss');
-const autoprefixer = require( 'autoprefixer');
-const postcssFixes = require('postcss-fixes');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -22,20 +19,15 @@ module.exports = {
     publicPath: '/'
       // necessary for HMR to know where to load the hot update chunks
   },
-   node: {
-      'fs' : 'empty'
-   },
+  
     target: 'web',
 
   context: resolve(__dirname, 'src'),
 
-  //devtool: 'source-map',
+  devtool: 'source-map',
 
   module: {
     rules: [
-        { test: /\.png$/, use: 'url-loader?limit=100000' },
-        { test: /\.jpg$/, use: 'file-loader' },
-
       {
         test: /\.js$/,
         use: [
@@ -46,8 +38,16 @@ module.exports = {
       {
         test: /\.css$/,
         use: cssExtract.extract({
-            fallbackLoader: 'style-loader',
-            loader: ['css-loader?modules&importLoaders=1&localIdentName=__[hash:base64:5]', 'postcss-loader']}),
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader']
+        }),
+      },
+      {
+        test: /\.pcss$/,
+        use: cssExtract.extract({
+          fallback: 'style-loader',
+          use: ['css-loader?modules&importLoaders=1&localIdentName=__[hash:base64:5]', 'postcss-loader']
+        }),
 
       },
     ],
@@ -68,10 +68,9 @@ module.exports = {
           minimize: true,
           debug: false,
           options: {
-              postcss: [
-                  postcssFixes(),
-                  autoprefixer({browsers:['last 2 versions']})
-              ]
+            
+              postcss: require('./utils/postcss.config')
+          
           }
       }),
       new webpack.optimize.UglifyJsPlugin({

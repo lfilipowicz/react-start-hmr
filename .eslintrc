@@ -11,14 +11,22 @@
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
     "no-console": ["error", { "allow": ["warn", "error"] }],
-    "no-undef" : "off"
+    "no-undef" : "off",
 
   },
   "plugins": [
-    "react"
+    "react","flowtype"
   ],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "airbnb","plugin:flowtype/recommended"],
   "env" :{
     "jest" :true
+  },
+  {
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
   }
+}
+
 }

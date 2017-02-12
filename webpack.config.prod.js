@@ -1,6 +1,6 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 /* PostCss */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -11,12 +11,12 @@ module.exports = {
   entry: './index.js',
     // the entry point of our app,
   output: {
-    filename: 'bundle_[hash:5].js',
+    filename: '/js/bundle_[hash:5].js',
     // the output bundle
 
     path: resolve(__dirname, 'dist'),
 
-    publicPath: '/'
+    publicPath: '/js/'
       // necessary for HMR to know where to load the hot update chunks
   },
   
@@ -73,16 +73,17 @@ module.exports = {
           
           }
       }),
-      new webpack.optimize.UglifyJsPlugin({
-          beautify: false,
-          mangle: {
-              screw_ie8: true,
-              keep_fnames: true
-          },
-          compress: {
-              screw_ie8: true
-          },
-          comments: false
-      })
+     new UglifyJsPlugin({
+            sourceMap : true,
+            beautify: false,
+            mangle: {
+                screw_ie8: true,
+                keep_fnames: true
+            },
+            compress: {
+                screw_ie8: true
+            },
+            comments: false
+        })
   ],
 };

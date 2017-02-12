@@ -8,12 +8,12 @@ import { AppContainer } from 'react-hot-loader';
 import App from './components/App';
 
 if (process.env.NODE_ENV === 'production'){
-   
+
     ReactDOM.render(<App/>, document.getElementById('root'));
 
 } else {
     const render = (Component) => {
-       
+
         ReactDOM.render(
             <AppContainer>
               <Component/>

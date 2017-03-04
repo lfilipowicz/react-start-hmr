@@ -1,0 +1,3 @@
+dist/*
+flow-typed/*
+bs-config.js

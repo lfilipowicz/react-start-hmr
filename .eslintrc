@@ -12,21 +12,18 @@
     "quotes": ["error", "single"],
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-undef" : "off",
+    "new-parens" :"off",
+    "indent": ["error", 4],
+    "max-len": ["error", 200],
+    "react/jsx-indent": ["error", 4],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
 
   },
   "plugins": [
-    "react","flowtype"
+    "react"
   ],
-  "extends": ["eslint:recommended", "airbnb","plugin:flowtype/recommended"],
+  "extends": ["eslint:recommended", "airbnb"],
   "env" :{
     "jest" :true
-  },
-  {
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
-    }
   }
-}
-
 }

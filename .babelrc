@@ -1,8 +1,24 @@
 {
   "presets": [
-    ["es2015",
-      {"modules": false}],
-      "stage-0","react"
+    ["es2015", {"modules": false}],
+    "stage-2",
+    "react"
   ],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": [
+    ["transform-runtime", {
+      "helpers": false, // defaults to true
+      "polyfill": false, // defaults to true
+      "regenerator": true, // defaults to true
+      "moduleName": "babel-runtime" // defaults to "babel-runtime"
+    }],
+    "react-hot-loader/babel"
+  ],
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "targets": {
+      "browsers": ["last 2 versions"]
+    }
+  }
 }

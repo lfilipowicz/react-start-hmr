@@ -95,3 +95,6 @@ fabric.properties
 
 .idea
 dist
+.vscode
+*.lock
+flow-typed

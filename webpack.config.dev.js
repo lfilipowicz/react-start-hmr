@@ -23,7 +23,7 @@ module.exports = {
 
 
         './app.js',
-        // the entry point of our app
+        // the entry point of our components
     ],
     output: {
         filename: 'js/bundle.js',
@@ -39,7 +39,7 @@ module.exports = {
 
     context: resolve(__dirname, 'src'),
 
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval',
     node: {
         fs: 'empty',
     },
@@ -51,14 +51,23 @@ module.exports = {
         // match the output path
 
         publicPath: '/',
-        // match the output `publicPath`
+        // match the output `publicPath`,
+        historyApiFallback: true,
     },
 
     module: {
         rules: [
             {
-                test: /\.png$/,
-                use: 'file-loader',
+                test: /\.(png|svg|jpg)?$/,
+                loader: 'file-loader?name=[name].[ext]&outputPath=/assets/&publicPath=/assets/',
+                include: resolve(__dirname, 'src/assets'),
+            },
+            { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader?name=[name].[ext]&limit=10000&mimetype=application/font-woff&publicPath=/fonts/',
+            },
+            {   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader?name=[name].[ext]&outputPath=/fonts/&publicPath=/fonts/',
+                include: resolve(__dirname, 'node_modules/font-awesome'),
             },
             {
                 test: /\.js$/,
@@ -73,6 +82,12 @@ module.exports = {
                     fallback: 'style-loader',
                     use: ['css-loader', 'postcss-loader'],
                 }),
+                include: resolve(__dirname, 'node_modules/'),
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]_[hash:4]', 'postcss-loader'],
+                include: resolve(__dirname, 'src/'),
             },
             {
                 test: /\.scss$/,

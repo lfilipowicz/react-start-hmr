@@ -1,15 +1,13 @@
-import React from 'react';
-import '../styles/base.css';
-import styles from '../styles/styles.scss';
+// @flow
+import React, { Component } from 'react';
 
-class App extends React.Component {
+class App extends Component {
 
-    render(){
-      return(
-        <h2 className={styles.h1}>React Starter</h2>
-      );
-    }
+  render(){
+    return(
+      <h1>React Starter </h1>
+    )
+  }
 }
-
 
 export default App;

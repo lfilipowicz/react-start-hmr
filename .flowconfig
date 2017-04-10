@@ -1,0 +1,19 @@
+[ignore]
+.*/dist/.*
+.*/node_modules/.*
+.*/package.json
+.*/webpack.*
+.*/coverage/.*
+.*/__mock__/.*
+.*/utils/.*
+.*/bs-config.json
+
+[include]
+
+
+[libs]
+./utils/interfaces/global.js
+
+[options]
+module.name_mapper='.*\(.css\)' -> 'CSSModule'
+module.system=haste

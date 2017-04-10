@@ -1,3 +1,4 @@
-dist/*
-flow-typed/*
+/dist/*
+/flow-typed/*
 bs-config.js
+/node_modules/*

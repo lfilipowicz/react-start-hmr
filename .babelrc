@@ -1,7 +1,7 @@
 {
   "presets": [
     ["es2015", {"modules": false}],
-    "stage-2",
+    "stage-0",
     "react"
   ],
   "plugins": [
@@ -15,10 +15,13 @@
   ],
   "env": {
     "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
+      "plugins": ["transform-es2015-modules-commonjs","transform-flow-strip-types"]
     },
     "targets": {
       "browsers": ["last 2 versions"]
+    },
+    "production" : {
+      "plugins":["transform-react-remove-prop-types"]
     }
   }
 }

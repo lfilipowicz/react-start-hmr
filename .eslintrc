@@ -1,8 +1,10 @@
 {
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
+      "classes": true,
       "jsx": true,
       "experimentalObjectRestSpread" : true
     }
@@ -20,10 +22,15 @@
 
   },
   "plugins": [
-    "react"
+    "react", "flowtype"
   ],
-  "extends": ["eslint:recommended", "airbnb"],
+  "extends": ["eslint:recommended", "airbnb","plugin:flowtype/recommended"],
   "env" :{
     "jest" :true
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
   }
 }
